@@ -28,12 +28,19 @@ colors = {
               "pink" : (255, 140, 180)
              }
 # msg dan sonra back ground değerine tuple gelmeli örn:(255,255,255) 
-def single(screen,pos,font,color,msg,*background):
-    if type(background[0]) == tuple and len(background[0]) == 3:
-        text = font.render(msg, True, color, background)
+def single(screen, pos, font, color, msg, background = False, backcolor = (0,0,0), size = (30,30), width = 0):
+    if background:
+        pygame.draw.rect(screen,backcolor,(pos,size),width)
+        text = font.render(msg, True, color)
+        text_x = size[0]/2 - text.get_width()/2 + pos[0]
+        text_y = size[1]/2 - text.get_height()/2 + pos[1]
+        screen.blit(text,(text_x,text_y))
+        print("pos:"+str(pos))
+        print("textX:"+str(text_x))
+        print("textY:"+str(text_y))
     else: 
         text = font.render(msg,True,color)
-    screen.blit(text,pos)
+        screen.blit(text,pos)
     return text.get_width() ,text.get_height()
 
 
@@ -86,9 +93,9 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
         if menutype == "mainmenu" and showmenu == 0:
-            single(screen,(200,200), font1, (255,255,255) ,"Kebab" , colors['blue'])
-            menu(screen,(0,0),font1,colors['white'],(3,4),(10,10),colors['olive'],"kebab yes","yes","no","YEmek","elma","birşeyler")
-            showmenu=1
+            single(screen,(200,200), font1, (255,255,255),"Kebab OwO", True, colors['magenta'], (100,100), 0)
+            #menu(screen,(0,0),font1,colors['white'],(3,4),(10,10),colors['olive'],"kebab yes","yes","no","YEmek","elma","birşeyler")
+            #showmenu=1
         pygame.display.flip()#bu satır tüm ekranı yeniliyor
 
         
