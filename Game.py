@@ -35,29 +35,30 @@ def single(screen, pos, font, color, msg, background = False, backcolor = (0,0,0
         text_x = size[0]/2 - text.get_width()/2 + pos[0]
         text_y = size[1]/2 - text.get_height()/2 + pos[1]
         screen.blit(text,(text_x,text_y))
-        print("pos:"+str(pos))
-        print("textX:"+str(text_x))
-        print("textY:"+str(text_y))
+
     else: 
-        text = font.render(msg,True,color)
-        screen.blit(text,pos)
-    return text.get_width() ,text.get_height()
+        text = font.render(msg, True, color)
+        text_x = size[0]/2 - text.get_width()/2 + pos[0]
+        text_y = size[1]/2 - text.get_height()/2 + pos[1]
+        screen.blit(text,(text_x,text_y))
+    return 
 
 
 #args ın "0" ıncı indeksi tuple olduğunda onu back ground olarak kullanacak rowNline ve gap 2 li tuple olacak
-def menu(screen, pos, font ,color ,lineNcollum , gap, *args):
+def menu(screen, pos, font ,color ,collumNline , gap, *msg, background = False, backcolor = (0,0,0), size = (30,30), width):
     gapx , gapy = gap
     posx , posy = pos
-    collum , line= lineNcollum
+    sizex , sizey = size
+    posx +=sizex
+    posy +=sizey
+    collum , line= collumNline
     
-    if type(args[0]) == tuple or type(args[0]) == dict:
-        for i in range(collum + 1):
-            if i == 1:
-                size=(single(screen, pos, font, color, args[i], args[0]))
-                posx= posx + gapx + size[0]
-            if i > 1:
-                size=(single(screen,(posx , posy) , font ,color ,args[i] ,args[0]))
-                posx= posx + gapx + size[0]
+    if background:
+        #single(screen, pos, font, color, msg[0], background, backcolor, size, width)
+        #posx = posx + gapx
+        for i in range(collum):
+            size = (single(screen,(posx , posy) , font ,color ,msg[i] ,msg[0]))
+            posx = posx + gapx + sizex
     else:
         pass
 
@@ -93,9 +94,9 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
         if menutype == "mainmenu" and showmenu == 0:
-            single(screen,(200,200), font1, (255,255,255),"Kebab OwO", True, colors['magenta'], (100,100), 0)
-            #menu(screen,(0,0),font1,colors['white'],(3,4),(10,10),colors['olive'],"kebab yes","yes","no","YEmek","elma","birşeyler")
-            #showmenu=1
+            single(screen,(200,200), font1, (255,255,255),"Kebab OwO",size = (70,90))
+            menu(screen, (0,0), font1, colors['white'], (3,4), (10,10), "kebab yes","yes","no","YEmek","elma","birşeyler", background = True, backcolor = colors['olive'], size = (70,90), width = 0)
+            showmenu=1
         pygame.display.flip()#bu satır tüm ekranı yeniliyor
 
         
