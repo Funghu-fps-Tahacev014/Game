@@ -45,7 +45,7 @@ def single(screen, pos, font, color, msg, background = False, backcolor = (0,0,0
 
 
 #args ın "0" ıncı indeksi tuple olduğunda onu back ground olarak kullanacak rowNline ve gap 2 li tuple olacak
-def menu(screen, pos, font ,color ,collumNline , gap, *msg, background = False, backcolor = (0,0,0), size = (30,30), width):
+def menu(screen, pos, font ,color ,collumNline , gap, *msg, background = False, backcolor = (0,0,0), size = (30,30), width = 0):
     gapx , gapy = gap
     posx , posy = pos
     sizex , sizey = size
@@ -57,7 +57,7 @@ def menu(screen, pos, font ,color ,collumNline , gap, *msg, background = False, 
         #single(screen, pos, font, color, msg[0], background, backcolor, size, width)
         #posx = posx + gapx
         for i in range(collum):
-            size = (single(screen,(posx , posy) , font ,color ,msg[i] ,msg[0]))
+            single(screen, (posx,posy), font, color, msg[i], background, backcolor, size, width)
             posx = posx + gapx + sizex
     else:
         pass
@@ -95,7 +95,7 @@ def main():
                 running = False
         if menutype == "mainmenu" and showmenu == 0:
             single(screen,(200,200), font1, (255,255,255),"Kebab OwO",size = (70,90))
-            menu(screen, (0,0), font1, colors['white'], (3,4), (10,10), "kebab yes","yes","no","YEmek","elma","birşeyler", background = True, backcolor = colors['olive'], size = (70,90), width = 0)
+            menu(screen, (0,0), font1, colors['white'], (3,4), (10,10), "kebab yes","yes","no","YEmek","elma","birşeyler", background = True, backcolor = colors['olive'], size = (100,50), width = 0)
             showmenu=1
         pygame.display.flip()#bu satır tüm ekranı yeniliyor
 
