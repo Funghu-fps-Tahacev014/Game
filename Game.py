@@ -66,8 +66,6 @@ def menu(screen, pos, font ,color ,collumNline , gap, *msg, background = False, 
     gapx , gapy = gap
     posx , posy = pos
     sizex , sizey = size
-    posx +=sizex
-    posy +=sizey
     collum , line= collumNline
     
 
