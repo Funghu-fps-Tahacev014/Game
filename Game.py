@@ -67,12 +67,17 @@ def menu(screen, pos, font ,color ,collumNline , gap, *msg, background = False, 
     posx , posy = pos
     sizex , sizey = size
     collum , line= collumNline
-    
+    a=0
+    for x in range(line):
+        for i in range(collum):
+            menu_element=single(screen, (posx,posy), font, color, msg[i+a], background, backcolor, size, width)
+            menu_elements.append(menu_element)
+            posx = posx + gapx + sizex
+            print(a)
+        a+=2
+        posx = pos[0]
+        posy = posy + sizey + gapy
 
-    for i in range(collum):
-        menu_element=single(screen, (posx,posy), font, color, msg[i], background, backcolor, size, width)
-        menu_elements.append(menu_element)
-        posx = posx + gapx + sizex
     return menu_elements
 
             
@@ -101,7 +106,7 @@ def main():
 
 
     activemenu = []
-    mainmenu = menu(screen, (0,0), font1, colors['white'], (3,4), (10,10), "kebab yes","yes","no","YEmek","elma","birşeyler", background = True, backcolor = colors['olive'], size = (100,50), width = 0)
+    mainmenu = menu(screen, (0,0), font1, colors['white'], (2,3), (10,10), "kebab yes","yes","no","YEmek","elma","birşeyler", background = True, backcolor = colors['olive'], size = (100,50), width = 0)
 
     while running:
         clock.tick(60)
@@ -137,7 +142,3 @@ def drawCircle():
 
 if __name__ == '__main__':
    main()
-    
-
-    
-
