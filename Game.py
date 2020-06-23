@@ -39,6 +39,7 @@ class single:
         self.backcolor = backcolor
         self.size = size
         self.width = width
+        self.activeted = False
 
         self.text = "Empty"
         self.text_x = 0
@@ -63,6 +64,7 @@ class single:
 #args ın "0" ıncı indeksi tuple olduğunda onu back ground olarak kullanacak rowNline ve gap 2 li tuple olacak
 def menu(screen, pos, font ,color ,collumNline , gap, *msg, background = False, backcolor = (0,0,0), size = (30,30), width = 0):
     menu_elements = []
+    menu_rects = []
     gapx , gapy = gap
     posx , posy = pos
     sizex , sizey = size
@@ -72,13 +74,13 @@ def menu(screen, pos, font ,color ,collumNline , gap, *msg, background = False, 
         for i in range(collum):
             menu_element=single(screen, (posx,posy), font, color, msg[i+a], background, backcolor, size, width)
             menu_elements.append(menu_element)
+            menu_rects.append(pygame.Rect((posx,posy),size))
             posx = posx + gapx + sizex
-            print(a)
         a+=2
         posx = pos[0]
         posy = posy + sizey + gapy
 
-    return menu_elements
+    return menu_elements, menu_rects
 
             
 
@@ -94,9 +96,11 @@ font1 = pygame.font.SysFont("Arial",25)
 
 
 
+activemenu = []
+activemenu_rects = []
 
 def main():
-    global running, screen, colors         
+    global running, screen, colors, activemenu,activemenu_rects         
     screen.fill((255,0,0))
     clock = pygame.time.Clock()
     menutype ='mainmenu'
@@ -105,39 +109,45 @@ def main():
     single1=single(screen,(200,200), font1, (255,255,255),"Kebab OwO",size = (70,90))
 
 
-    activemenu = []
-    mainmenu = menu(screen, (0,0), font1, colors['white'], (2,3), (10,10), "kebab yes","yes","no","YEmek","elma","birşeyler", background = True, backcolor = colors['olive'], size = (100,50), width = 0)
+    mainmenu,mainmenu_rects = menu(screen, (0,0), font1, colors['white'], (2,3), (10,10), "kebab yes","yes","no","YEmek","elma","birşeyler", background = True, backcolor = colors['olive'], size = (100,50), width = 0)
 
     while running:
         clock.tick(60)
         ev = pygame.event.get()
         #sonra bu for döngüsünü kaldır
         for event in ev:
-            if event.type == pygame.MOUSEBUTTONUP:
-                pos=drawCircle()
-                
-                #pygame.display.update(pygame.Rect((pos[0]-20,pos[1]-20),(40,40)))   bu satır sadece dairenin olduğu yeri yenilemeyi sağlıyor 
-                
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                checkhitmenu()
+
+
             if event.type == pygame.QUIT:
-                running = False
-        
+               running = False
+               break
         if menutype == "mainmenu" and showmenu == 0:               
             showmenu=1
             for x in mainmenu:
                 x.render()
             activemenu = mainmenu
+            activemenu_rects = mainmenu_rects
+            print(activemenu_rects)
         pygame.display.flip()#bu satır tüm ekranı yeniliyor
 
         
 
-def getPos():
+def get_MousePos():
     pos = pygame.mouse.get_pos()
     return (pos)
+def checkhitmenu():
+    global activemenu_rects, activemenu
+    posx,posy = get_MousePos() 
+    a=0
+    for i in activemenu_rects:
+        if posx >= i.left and posx <= i.right and posy >= i.top and posy <= i.bottom :
+            activemenu[a].activeted = True
+            print(activemenu[a].msg)
+        a+=1
+        pass
 
-def drawCircle():
-    pos = getPos()
-    pygame.draw.circle(screen, (0,0,255), pos, 20)
-    return (pos)
 
 
 if __name__ == '__main__':
