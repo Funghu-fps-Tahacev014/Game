@@ -39,7 +39,6 @@ class single:
         self.backcolor = backcolor
         self.size = size
         self.width = width
-        self.activeted = False
 
         self.text = "Empty"
         self.text_x = 0
@@ -62,25 +61,37 @@ class single:
 
 
 #args ın "0" ıncı indeksi tuple olduğunda onu back ground olarak kullanacak rowNline ve gap 2 li tuple olacak
-def menu(screen, pos, font ,color ,collumNline , gap, *msg, background = False, backcolor = (0,0,0), size = (30,30), width = 0):
-    menu_elements = []
-    menu_rects = []
-    gapx , gapy = gap
-    posx , posy = pos
-    sizex , sizey = size
-    collum , line= collumNline
-    a=0
-    for x in range(line):
-        for i in range(collum):
-            menu_element=single(screen, (posx,posy), font, color, msg[i+a], background, backcolor, size, width)
-            menu_elements.append(menu_element)
-            menu_rects.append(pygame.Rect((posx,posy),size))
-            posx = posx + gapx + sizex
-        a+=2
-        posx = pos[0]
-        posy = posy + sizey + gapy
+class menu:
+    def __init__(self, screen, pos, font ,color ,collumNline , gap, *msg, background = False, backcolor = (0,0,0), size = (30,30), width = 0, backgroundcolor = (255,0,0)):
+        self.menu_elements = []
+        self.menu_rects = []
+        self.gapx ,  self.gapy = gap
+        self.posx ,  self.posy = pos
+        self.sizex ,  self.sizey = size
+        self.collum ,  self.line= collumNline
+        self.a=0
 
-    return menu_elements, menu_rects
+        self.screen = screen
+        self.pos = pos
+        self.font = font
+        self.color = color
+        self.msg = msg
+        self.background = background
+        self.backcolor = backcolor
+        self.size = size
+        self.width = width
+        self.backgroundcolor = backgroundcolor
+        
+        for x in range( self.line):
+            for i in range( self.collum):
+                menu_element=single( self.screen, ( self.posx, self.posy),  self.font,  self.color,  self.msg[i+ self.a],  self.background,  self.backcolor,  self.size,  self.width)
+                self.menu_elements.append(menu_element)
+                self.menu_rects.append(pygame.Rect(( self.posx, self.posy), self.size))
+                self.posx =  self.posx +  self.gapx +  self.sizex
+            self.a+=2
+            self.posx =  self.pos[0]
+            self.posy =  self.posy +  self.sizey +  self.gapy
+
 
             
 
@@ -97,19 +108,18 @@ font1 = pygame.font.SysFont("Arial",25)
 
 
 activemenu = []
-activemenu_rects = []
+
 
 def main():
     global running, screen, colors, activemenu,activemenu_rects         
     screen.fill((255,0,0))
     clock = pygame.time.Clock()
-    menutype ='mainmenu'
-    showmenu = 0
+    showmenu = 1
 
     single1=single(screen,(200,200), font1, (255,255,255),"Kebab OwO",size = (70,90))
 
-
-    mainmenu,mainmenu_rects = menu(screen, (0,0), font1, colors['white'], (2,3), (10,10), "kebab yes","yes","no","YEmek","elma","birşeyler", background = True, backcolor = colors['olive'], size = (100,50), width = 0)
+    mainmenu = menu(screen, (0,0), font1, colors['white'], (2,3), (10,10), "kebab yes","yes","no","YEmek","elma","birşeyler", background = True, backcolor = colors['olive'], size = (100,50), width = 0, backgroundcolor =colors["magenta"])
+    activemenu = mainmenu
 
     while running:
         clock.tick(60)
@@ -122,14 +132,15 @@ def main():
 
             if event.type == pygame.QUIT:
                running = False
-               break
-        if menutype == "mainmenu" and showmenu == 0:               
-            showmenu=1
-            for x in mainmenu:
+               break 
+           
+
+        if showmenu == 1:
+            screen.fill(activemenu.backgroundcolor)
+            showmenu = 0    
+            for x in activemenu.menu_elements:
                 x.render()
-            activemenu = mainmenu
-            activemenu_rects = mainmenu_rects
-            print(activemenu_rects)
+
         pygame.display.flip()#bu satır tüm ekranı yeniliyor
 
         
@@ -141,10 +152,9 @@ def checkhitmenu():
     global activemenu_rects, activemenu
     posx,posy = get_MousePos() 
     a=0
-    for i in activemenu_rects:
+    for i in activemenu.menu_rects:
         if posx >= i.left and posx <= i.right and posy >= i.top and posy <= i.bottom :
-            activemenu[a].activeted = True
-            print(activemenu[a].msg)
+            print(activemenu.menu_elements[a].msg)
         a+=1
         pass
 
