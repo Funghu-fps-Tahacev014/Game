@@ -58,6 +58,9 @@ class menu:
                self.menu_elements.append(menu_element)
                self.menu_rects.append(pygame.Rect(( self.posx, self.posy), self.size))
                self.posx =  self.posx +  self.gapx +  self.sizex
-           self.a+=2
+           if self.collum !=1:
+             self.a+=2
+           else:
+               self.a+=1
            self.posx =  self.pos[0]
            self.posy =  self.posy +  self.sizey +  self.gapy

@@ -39,7 +39,7 @@ colors = {
              }
 
 menus={
-            "mainmenu" : menu(screen, (0,0), font1, colors['white'], (2,3), (10,10), "kebab yes","Test","no","YEmek","elma","birşeyler", background = True, backcolor = colors['olive'], size = (100,50), width = 0, backgroundcolor = colors["magenta"]),
+            "mainmenu" : menu(screen, (0,0), font1, colors['white'], (1,2), (10,10), "continue","New Game", "Exit", background = True, backcolor = colors['olive'], size = (100,50), width = 0, backgroundcolor = colors["magenta"]),
             "Test" : menu(screen, (0,0), font1, colors['white'], (2,3), (10,10), "elma yes","elma yes","elma no","elma","elma","elma", background = True, backcolor = colors['olive'], size = (100,50), width = 0, backgroundcolor = colors["maroon"])
     }
         
@@ -60,7 +60,7 @@ def main():
     single1=single(screen,(200,200), font1, (255,255,255),"Kebab OwO",size = (70,90))
 
     
-    activemenu = menus["mainmenu"]
+    activemenu = menus["Mainmenu"]
 
     while running:
         clock.tick(60)
