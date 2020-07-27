@@ -33,7 +33,7 @@ class single:
 
 
 class menu:
-    def __init__(self, screen, pos, font ,color ,collumNline , gap, *msg, background = False, backcolor = (0,0,0), size = (30,30), width = 0, backgroundcolor = (255,0,0)):
+    def __init__(self, screen, pos: tuple, font ,color: tuple ,collumNline: tuple , gap: int, *msg: str, background = False, backcolor: tuple = (0,0,0), size = (30,30), width = 0, backgroundcolor = (255,0,0)):
         self.menu_elements = []
         self.menu_rects = []
         self.gapx ,  self.gapy = gap
@@ -41,7 +41,7 @@ class menu:
         self.sizex ,  self.sizey = size
         self.collum ,  self.line= collumNline
         self.a=0
-
+   
         self.screen = screen
         self.pos = pos
         self.font = font
@@ -58,7 +58,7 @@ class menu:
                self.menu_elements.append(menu_element)
                self.menu_rects.append(pygame.Rect(( self.posx, self.posy), self.size))
                self.posx =  self.posx +  self.gapx +  self.sizex
-           if self.collum !=1:
+           if self.collum != 1:
              self.a+=2
            else:
                self.a+=1
